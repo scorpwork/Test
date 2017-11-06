@@ -45,8 +45,8 @@ namespace Test
             Cursor.Current = Cursors.WaitCursor;
             statusLabel.Visible = false;
             JSONParsing json = new JSONParsing();
-            json.DeserializeJSONObject(downloadTextBox.Text);
-            DeserializeJSON deserializeJSON = json.deserializeObject;
+            json.DeserializeJSONObject(downloadTextBox.Text);            
+            DeserializeJSON deserializeJSON = json.deserializeObject;            
             if (CheckJSON(deserializeJSON))
             {
                 json.SaveJSON();
