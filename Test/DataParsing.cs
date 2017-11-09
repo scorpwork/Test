@@ -18,7 +18,7 @@ namespace Test
         public JSONParsing()
         {}
 
-        public DeserializeJSON deserializeObject { get; set; }
+        public ObjectsContainer deserializeObject { get; set; }
 
         /// <summary>
         /// Чтение JSON объекта
@@ -53,7 +53,7 @@ namespace Test
         public void DeserializeJSONObject(string urlStr)
         {
             string jsonString = GetJSONString(urlStr);
-            deserializeObject = JsonConvert.DeserializeObject<DeserializeJSON>(jsonString);
+            deserializeObject = JsonConvert.DeserializeObject<ObjectsContainer>(jsonString);
             DeserializeXML();
         }
 
@@ -112,7 +112,23 @@ namespace Test
         /// </summary>
         public void SaveJSON()
         {
-            //В разработке
+            DBWork.ClearTables(DBWork.tablesList);
+            foreach (Game game in deserializeObject.games)
+            {
+                foreach (Team team in game.teams)
+                {
+                    foreach (Player player in team.players)
+                    {
+                        player.Save();
+                    }
+                    team.Save();
+                }
+                game.Save();
+            }
+            foreach (Sound sound in deserializeObject.sounds)
+            {
+                sound.Save();
+            }
         }
     }
 }

@@ -14,6 +14,17 @@ namespace Test
         public MainForm()
         {
             InitializeComponent();
+            InitializeDB();
+        }
+
+        /// <summary>
+        /// Инициализация БД
+        /// </summary>
+        private void InitializeDB()
+        {
+            DBWork dbWork = new DBWork();
+            dbWork.Connection();
+            dbWork.CreateTables();
         }
 
         /// <summary>
@@ -81,7 +92,7 @@ namespace Test
             PanelsVisible(false, false, true);
             GameWidget gameWidget = new GameWidget();
             FormLoad(gameWidget, this.panelGames);
-            Cursor.Current = Cursors.Default;
+            Cursor.Current = Cursors.Default;            
         }
 
         /// <summary>

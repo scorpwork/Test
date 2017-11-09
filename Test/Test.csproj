@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBWork.cs" />
     <Compile Include="GameWidget.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +96,8 @@
     <Compile Include="SoundWidget.Designer.cs">
       <DependentUpon>SoundWidget.cs</DependentUpon>
     </Compile>
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
     <Compile Include="Types.cs" />
     <EmbeddedResource Include="GameWidget.resx">
       <DependentUpon>GameWidget.cs</DependentUpon>

@@ -28,15 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.downloadLabel = new System.Windows.Forms.Label();
             this.addressLabel = new System.Windows.Forms.Label();
             this.downloadTextBox = new System.Windows.Forms.TextBox();
-            this.jsonTable = new System.Windows.Forms.DataGridView();
             this.lineLabel = new System.Windows.Forms.Label();
             this.downloadBt = new System.Windows.Forms.Button();
             this.statusLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.jsonTable)).BeginInit();
+            this.statisticBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // downloadLabel
@@ -69,24 +67,6 @@
             this.downloadTextBox.Size = new System.Drawing.Size(444, 16);
             this.downloadTextBox.TabIndex = 3;
             this.downloadTextBox.Text = "https://laserwar.com/testtask/get?datatype=json";
-            // 
-            // jsonTable
-            // 
-            this.jsonTable.BackgroundColor = System.Drawing.Color.White;
-            this.jsonTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.jsonTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.RaisedHorizontal;
-            this.jsonTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.jsonTable.ColumnHeadersVisible = false;
-            this.jsonTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.jsonTable.GridColor = System.Drawing.Color.MediumBlue;
-            this.jsonTable.Location = new System.Drawing.Point(33, 167);
-            this.jsonTable.Name = "jsonTable";
-            this.jsonTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.jsonTable.RowHeadersVisible = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            this.jsonTable.RowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.jsonTable.Size = new System.Drawing.Size(793, 168);
-            this.jsonTable.TabIndex = 5;
             // 
             // lineLabel
             // 
@@ -127,22 +107,36 @@
             this.statusLabel.Text = "Файл успешно загружен";
             this.statusLabel.Visible = false;
             // 
+            // statisticBox
+            // 
+            this.statisticBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.statisticBox.BackColor = System.Drawing.Color.White;
+            this.statisticBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.statisticBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.statisticBox.Location = new System.Drawing.Point(38, 170);
+            this.statisticBox.Name = "statisticBox";
+            this.statisticBox.ReadOnly = true;
+            this.statisticBox.Size = new System.Drawing.Size(788, 189);
+            this.statisticBox.TabIndex = 9;
+            this.statisticBox.Text = "";
+            // 
             // DownloadWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(860, 385);
+            this.Controls.Add(this.statisticBox);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.downloadBt);
             this.Controls.Add(this.lineLabel);
-            this.Controls.Add(this.jsonTable);
             this.Controls.Add(this.downloadTextBox);
             this.Controls.Add(this.addressLabel);
             this.Controls.Add(this.downloadLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "DownloadWidget";
-            ((System.ComponentModel.ISupportInitialize)(this.jsonTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,9 +147,9 @@
         private System.Windows.Forms.Label downloadLabel;
         private System.Windows.Forms.Label addressLabel;
         private System.Windows.Forms.TextBox downloadTextBox;
-        private System.Windows.Forms.DataGridView jsonTable;
         private System.Windows.Forms.Label lineLabel;
         private System.Windows.Forms.Button downloadBt;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.RichTextBox statisticBox;
     }
 }

@@ -20,8 +20,8 @@ namespace Test
         /// Проверка корректности загруженного json объекта
         /// </summary>
         /// <param name="json">объект</param>
-        /// <returns></returns>
-        private bool CheckJSON(DeserializeJSON json)
+        /// <returns>флаг</returns>
+        private bool CheckJSON(ObjectsContainer json)
         {
             if (json == null)
             {
@@ -45,14 +45,51 @@ namespace Test
             Cursor.Current = Cursors.WaitCursor;
             statusLabel.Visible = false;
             JSONParsing json = new JSONParsing();
-            json.DeserializeJSONObject(downloadTextBox.Text);            
-            DeserializeJSON deserializeJSON = json.deserializeObject;            
+            json.DeserializeJSONObject(downloadTextBox.Text);
+            ObjectsContainer deserializeJSON = json.deserializeObject;            
             if (CheckJSON(deserializeJSON))
             {
                 json.SaveJSON();
+                ShowJsonStatistic(deserializeJSON);
                 statusLabel.Visible = true;
             }            
             Cursor.Current = Cursors.Default;
         }        
+
+        private void ShowJsonStatistic(ObjectsContainer jsonObject)
+        {
+            string text = "Информация о загруженном объекте:\n";
+            if (jsonObject.error == null)
+            {
+                text += "Ошибки не обнаружены\n";
+            }
+            else
+            {
+                text += "Ошибка: "+jsonObject.error.ToString()+"\n";
+            }
+            if (jsonObject.games.Count() != 0)
+            {
+                text += "Проведено игр: " + jsonObject.games.Count().ToString() + "\n";
+            }
+            foreach(Game game in jsonObject.games)
+            {
+                text += "     " + game.name+"("+game.date+"), участники: \n";
+                foreach (Team team in game.teams)
+                {
+                    text += "           " + team.name + " в составе " +
+                        ""+team.players.Count().ToString()+" игроков \n";
+                }
+            }
+            if (jsonObject.sounds.Count()!=0)
+            {
+                text+="Имеются сведения о "+ jsonObject.sounds.Count().ToString()+ " композициях\n";
+            }
+            else
+            {
+                text += "Музыка отсутствует\n";
+            }
+                        
+            statisticBox.Text = text;
+        }
     }
 }
