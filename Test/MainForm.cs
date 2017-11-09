@@ -15,6 +15,18 @@ namespace Test
         {
             InitializeComponent();
             InitializeDB();
+            LoadData();
+        }
+
+        public static ObjectsContainer LoadData()
+        {
+            //В разработке
+            ObjectsContainer obj = new ObjectsContainer();
+            List<Game> games = Game.Load();
+            List<Sound> sounds = Sound.Load();
+            obj.games = games;
+            obj.sounds = sounds;
+            return obj;
         }
 
         /// <summary>
