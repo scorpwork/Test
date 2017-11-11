@@ -258,14 +258,13 @@ namespace Test
         {
             if (data == null)
             {
-                data = new ObjectsContainer();
                 List<Game> games = Game.Load();
                 List<Sound> sounds = Sound.Load();
-                data.games = games;
-                data.sounds = sounds;
-                if (games.Count() == 0 && sounds.Count() == 0)
+                if (games.Count() != 0 && sounds.Count() != 0)
                 {
-                    data = null;
+                    data = new ObjectsContainer();
+                    data.games = games;
+                    data.sounds = sounds;
                 }
             }
             return data;
