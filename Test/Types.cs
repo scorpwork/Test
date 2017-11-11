@@ -263,6 +263,10 @@ namespace Test
                 List<Sound> sounds = Sound.Load();
                 data.games = games;
                 data.sounds = sounds;
+                if (games.Count() == 0 && sounds.Count() == 0)
+                {
+                    data = null;
+                }
             }
             return data;
         }

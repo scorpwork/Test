@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,6 +44,7 @@
             this.downloadCol = new System.Windows.Forms.DataGridViewImageColumn();
             this.playCol = new System.Windows.Forms.DataGridViewImageColumn();
             this.progressBarTemp = new System.Windows.Forms.ProgressBar();
+            this.wmpTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.soundTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -173,6 +175,10 @@
             this.progressBarTemp.Size = new System.Drawing.Size(601, 23);
             this.progressBarTemp.TabIndex = 2;
             // 
+            // wmpTimer
+            // 
+            this.wmpTimer.Tick += new System.EventHandler(this.wmpTimer_Tick);
+            // 
             // SoundWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,5 +206,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sizeCol;
         private System.Windows.Forms.DataGridViewImageColumn downloadCol;
         private System.Windows.Forms.DataGridViewImageColumn playCol;
+        private System.Windows.Forms.Timer wmpTimer;
     }
 }

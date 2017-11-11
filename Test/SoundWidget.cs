@@ -9,15 +9,21 @@ using System.Windows.Forms;
 using System.Net;
 using System.Threading;
 using System.Media;
+using WMPLib;
 
 namespace Test
 {
     public partial class SoundWidget : Form
     {
+        static private WindowsMediaPlayer wmp;
+
         public SoundWidget()
         {
             InitializeComponent();
-            PrepareSoundTable();
+            if (ObjectsContainer.GetData() != null)
+            {
+                PrepareSoundTable();
+            }
         }
 
         /// <summary>
@@ -77,6 +83,10 @@ namespace Test
         /// <param name="e"></param>
         private void soundTable_Click(object sender, EventArgs e)
         {
+            if (ObjectsContainer.GetData() == null)
+            {
+                return;
+            }
             if (soundTable.CurrentCell.ColumnIndex == 2)
             {
                 try
@@ -95,7 +105,8 @@ namespace Test
             {
                 try
                 {
-                    PlaySound(GetCurrentSound());
+                    //PlaySound(GetCurrentSound());
+                    PlaySoundWMP(GetCurrentSound());
                 }
                 catch
                 { }
@@ -191,15 +202,13 @@ namespace Test
             this.Invoke((MethodInvoker)delegate
             {
                 progressBarTemp.Value = 0;
-                //SetActivePlayIcon(soundTable.CurrentRow.Index, 3);
                 SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
-                //SetDisActiveDownloadIcon(soundTable.CurrentRow.Index, 2);
                 SetCellIcon(soundTable.CurrentRow.Index, 2, Properties.Resources.downloaded_sound);
             });
         }
 
         /// <summary>
-        /// Проигрыватель звуков. 
+        /// Проигрыватель звуков
         /// </summary>
         /// <param name="sound">Объект композиции</param>
         private void PlaySound(Sound sound)
@@ -208,5 +217,54 @@ namespace Test
             soundPlayer.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\download\\" + sound.name + ".wav";
             soundPlayer.Play();
         }
-}
+
+        /// <summary>
+        /// Получение объекта проигрывателя
+        /// </summary>
+        /// <returns></returns>
+        private WindowsMediaPlayer GetWMP()
+        {
+            if (wmp == null)
+            {
+                wmp = new WindowsMediaPlayer();
+            }
+            return wmp;
+        }
+
+        /// <summary>
+        /// Проигрыватель звуков WMP
+        /// </summary>
+        /// <param name="sound">Объект композиции</param>
+        private void PlaySoundWMP(Sound sound)
+        {
+            SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.stop);
+            wmpTimer.Start();
+            GetWMP().URL = AppDomain.CurrentDomain.BaseDirectory + "\\download\\" + sound.name + ".wav";            
+        }
+
+        /// <summary>
+        /// Обработка воспроизведения
+        /// </summary>
+        private void WMPPlay()
+        {
+            WMPPlayState playState = GetWMP().playState;
+            if ((GetWMP().playState == WMPLib.WMPPlayState.wmppsMediaEnded) ||
+                (GetWMP().playState == WMPLib.WMPPlayState.wmppsStopped))
+            {
+                wmpTimer.Stop();
+                SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+                soundTable.ClearSelection();
+            }
+        }
+
+        /// <summary>
+        /// Таймер воспроизведения
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void wmpTimer_Tick(object sender, EventArgs e)
+        {
+            WMPPlay();
+        }
+    }
 }
