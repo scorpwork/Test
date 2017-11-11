@@ -43,6 +43,7 @@ namespace Test
         private void downloadBt_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
+            ObjectsContainer.ClearData();
             statusLabel.Visible = false;
             JSONParsing json = new JSONParsing();
             json.DeserializeJSONObject(downloadTextBox.Text);
@@ -50,6 +51,7 @@ namespace Test
             if (CheckJSON(deserializeJSON))
             {
                 json.SaveJSON();
+                ObjectsContainer.GetData();
                 ShowJsonStatistic(deserializeJSON);
                 statusLabel.Visible = true;
             }            

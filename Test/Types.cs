@@ -240,13 +240,41 @@ namespace Test
     }
 
     /// <summary>
-    /// JSON контейнер
+    /// JSON контейнер (Singleton)
     /// </summary>
     public class ObjectsContainer//DeserializeJSON
     {
         public int id { get; set; }
         public object error { get; set; }
         public List<Game> games { get; set; }
-        public List<Sound> sounds { get; set; }        
+        public List<Sound> sounds { get; set; }
+
+        private static ObjectsContainer data;
+
+        private ObjectsContainer()
+        {}
+
+        public static ObjectsContainer GetData()
+        {
+            if (data == null)
+            {
+                data = new ObjectsContainer();
+                List<Game> games = Game.Load();
+                List<Sound> sounds = Sound.Load();
+                data.games = games;
+                data.sounds = sounds;
+            }
+            return data;
+        }
+
+        public static ObjectsContainer ClearData()
+        {
+            if (data == null)
+            {
+                return data;
+            }
+            data = null;
+            return data;
+        }
     }
 }
