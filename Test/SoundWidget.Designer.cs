@@ -42,6 +42,7 @@
             this.sizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.downloadCol = new System.Windows.Forms.DataGridViewImageColumn();
             this.playCol = new System.Windows.Forms.DataGridViewImageColumn();
+            this.progressBarTemp = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.soundTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,8 +110,9 @@
             this.soundTable.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 9F);
             this.soundTable.RowTemplate.Height = 40;
             this.soundTable.RowTemplate.ReadOnly = true;
-            this.soundTable.Size = new System.Drawing.Size(601, 356);
+            this.soundTable.Size = new System.Drawing.Size(601, 327);
             this.soundTable.TabIndex = 1;
+            this.soundTable.Click += new System.EventHandler(this.soundTable_Click);
             // 
             // nameCol
             // 
@@ -137,6 +139,8 @@
             this.downloadCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomLeft;
             dataGridViewCellStyle4.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle4.NullValue")));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Transparent;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.downloadCol.DefaultCellStyle = dataGridViewCellStyle4;
             this.downloadCol.HeaderText = "Загрузка файла";
@@ -160,12 +164,22 @@
             this.playCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.playCol.Width = 141;
             // 
+            // progressBarTemp
+            // 
+            this.progressBarTemp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarTemp.Location = new System.Drawing.Point(12, 417);
+            this.progressBarTemp.Name = "progressBarTemp";
+            this.progressBarTemp.Size = new System.Drawing.Size(601, 23);
+            this.progressBarTemp.TabIndex = 2;
+            // 
             // SoundWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(625, 452);
+            this.Controls.Add(this.progressBarTemp);
             this.Controls.Add(this.soundTable);
             this.Controls.Add(this.SoundLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -181,6 +195,7 @@
 
         private System.Windows.Forms.Label SoundLabel;
         private System.Windows.Forms.DataGridView soundTable;
+        private System.Windows.Forms.ProgressBar progressBarTemp;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn sizeCol;
         private System.Windows.Forms.DataGridViewImageColumn downloadCol;
