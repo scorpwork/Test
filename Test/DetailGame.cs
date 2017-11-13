@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace Test
+{
+    public partial class DetailGame : Form
+    {
+        private Game game { get; set; }
+
+        public DetailGame(Game game)
+        {
+            this.game = game;
+            InitializeComponent();
+            detailLabel.Text = this.game.name;
+            PrepareDetailTable();
+        }
+
+        /// <summary>
+        /// Кнопка "Назад"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// Подготовка таблицы игроков
+        /// </summary>
+        private void PrepareDetailTable()
+        {
+            detailTable.Rows.Clear();
+            int teamIterator = 0;
+            System.Windows.Forms.DataGridViewCellStyle teamStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            teamStyle.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            System.Windows.Forms.DataGridViewCellStyle playerStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            playerStyle.Font = new System.Drawing.Font("Arial", 10F);
+            foreach (Team team in this.game.teams)
+            {
+                detailTable.Rows.Add();
+                detailTable.Rows[teamIterator].DefaultCellStyle = teamStyle;
+                detailTable.Rows[teamIterator].Cells[0].Value = team.name;
+                detailTable.Rows[teamIterator].Cells[0].Tag = "Team";
+                detailTable.Rows[teamIterator].ReadOnly = true;
+                int playerIterator = 0;
+                foreach (Player player in team.players)
+                {
+                    detailTable.Rows.Add();
+                    detailTable.Rows[playerIterator+teamIterator+1].DefaultCellStyle = playerStyle;
+                    detailTable.Rows[playerIterator + teamIterator + 1].Cells[0].Value = player.name;
+                    detailTable.Rows[playerIterator + teamIterator + 1].Cells[1].Value = player.rating.ToString();
+                    detailTable.Rows[playerIterator + teamIterator + 1].Cells[2].Value = (player.accuracy * 100).ToString()+"%";
+                    detailTable.Rows[playerIterator + teamIterator + 1].Cells[3].Value = player.shots.ToString();
+                    detailTable.Rows[playerIterator + teamIterator + 1].Tag = player;
+                    playerIterator++;
+                }
+                teamIterator = teamIterator + playerIterator + 1;
+            }
+        }
+
+        /// <summary>
+        /// Завершение редактирования ячейки таблицы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void detailTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (detailTable.CurrentRow.Tag != null)
+            {
+                Player player = (Player)detailTable.CurrentRow.Tag;
+                int col = detailTable.CurrentCell.ColumnIndex;
+                switch (col)
+                {
+                    case 0:
+                        SaveName(player);
+                        break;
+                    case 1:
+                        SaveRating(player);
+                        break;
+                    case 2:
+                        SaveAccuracy(player);
+                        break;
+                    case 3:
+                        SaveShots(player);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// метод сохранения имени
+        /// </summary>
+        /// <param name="player">Игрок</param>
+        private void SaveName(Player player)
+        {
+            if (detailTable.CurrentCell.Value != null)
+            {
+                player.name = detailTable.CurrentCell.Value.ToString();
+                player.Update(player.id, "name", player.name);
+            }
+        }
+
+        /// <summary>
+        /// Метод сохранения уровня
+        /// </summary>
+        /// <param name="player">Игрок</param>
+        private void SaveRating(Player player)
+        {
+            if (detailTable.CurrentCell.Value != null)
+            {
+                player.rating = Convert.ToInt32(detailTable.CurrentCell.Value.ToString());
+                player.Update(player.id, "rating", player.rating.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Метод сохранения точности
+        /// </summary>
+        /// <param name="player">Игрок</param>
+        private void SaveAccuracy(Player player)
+        {
+
+        }
+
+        /// <summary>
+        /// Метод сохранения выстрелов
+        /// </summary>
+        /// <param name="player">Игрок</param>
+        private void SaveShots(Player player)
+        {
+
+        }
+
+        /// <summary>
+        /// Обработка корректности ввода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void detailTable_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Player player = (Player)detailTable.CurrentRow.Tag;
+            int col = detailTable.CurrentCell.ColumnIndex;
+            switch (col)
+            {
+                case 1:
+                    if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
+                    {
+                        e.Handled = true;
+                    }
+                    break;
+                /*case 2:
+                    if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
+                    {
+                        e.Handled = true;
+                    }
+                    break;
+                case 3:
+                    if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
+                    {
+                        e.Handled = true;
+                    }
+                    break;*/
+            }
+        }
+
+        /// <summary>
+        /// Обработка корректности ввода
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void detailTable_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (detailTable.CurrentRow.Tag != null)
+            {
+                TextBox tb = (TextBox)e.Control;
+                tb.KeyPress += new KeyPressEventHandler(detailTable_KeyPress);
+            }
+        }
+    }
+}

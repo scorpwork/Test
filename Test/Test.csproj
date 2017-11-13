@@ -69,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBWork.cs" />
+    <Compile Include="DetailGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailGame.Designer.cs">
+      <DependentUpon>DetailGame.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameWidget.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="Types.cs" />
+    <EmbeddedResource Include="DetailGame.resx">
+      <DependentUpon>DetailGame.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GameWidget.resx">
       <DependentUpon>GameWidget.cs</DependentUpon>
     </EmbeddedResource>

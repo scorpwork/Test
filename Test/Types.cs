@@ -25,7 +25,7 @@ namespace Test
             string sqlstr = "INSERT INTO tbPlayers (name,rating,accuracy,shots) VALUES (" +
                 "'" + name + "', " +
                 "'" + rating.ToString() + "', " +
-                "'" + accuracy.ToString() + "', " +
+                "'" + accuracy.ToString().Replace(",",".") + "', " +
                 "'" + shots.ToString() + "'" +
                 ")";
             this.id = DBWork.Insert(sqlstr);
@@ -45,12 +45,18 @@ namespace Test
                         player.id = Convert.ToInt32(dataTable.Rows[iRow][0].ToString());
                         player.name = dataTable.Rows[iRow][1].ToString();
                         player.rating = Convert.ToInt32(dataTable.Rows[iRow][2].ToString());
-                        player.accuracy = Convert.ToDouble(dataTable.Rows[iRow][3].ToString());//в доработке
+                        player.accuracy = Convert.ToDouble(dataTable.Rows[iRow][3].ToString());
                         player.shots = Convert.ToInt32(dataTable.Rows[iRow][4].ToString());
                     }
                 }
             }
             return player;
+        }
+
+        public void Update(int id, string what, string value)
+        {
+            string sqlstr = "UPDATE tbPlayers SET "+what+" = '"+value+"' WHERE id = "+id.ToString();
+            DBWork.Exec(sqlstr);
         }
     }
 

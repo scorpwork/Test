@@ -39,12 +39,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.SoundLabel = new System.Windows.Forms.Label();
             this.soundTable = new System.Windows.Forms.DataGridView();
+            this.progressBarTemp = new System.Windows.Forms.ProgressBar();
+            this.wmpTimer = new System.Windows.Forms.Timer(this.components);
             this.nameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.downloadCol = new System.Windows.Forms.DataGridViewImageColumn();
             this.playCol = new System.Windows.Forms.DataGridViewImageColumn();
-            this.progressBarTemp = new System.Windows.Forms.ProgressBar();
-            this.wmpTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.soundTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,56 +116,6 @@
             this.soundTable.TabIndex = 1;
             this.soundTable.Click += new System.EventHandler(this.soundTable_Click);
             // 
-            // nameCol
-            // 
-            this.nameCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.nameCol.DefaultCellStyle = dataGridViewCellStyle2;
-            this.nameCol.HeaderText = "Имя файла";
-            this.nameCol.Name = "nameCol";
-            this.nameCol.ReadOnly = true;
-            this.nameCol.Width = 110;
-            // 
-            // sizeCol
-            // 
-            this.sizeCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.sizeCol.DefaultCellStyle = dataGridViewCellStyle3;
-            this.sizeCol.HeaderText = "Размер Файла";
-            this.sizeCol.Name = "sizeCol";
-            this.sizeCol.ReadOnly = true;
-            this.sizeCol.Width = 134;
-            // 
-            // downloadCol
-            // 
-            this.downloadCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomLeft;
-            dataGridViewCellStyle4.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle4.NullValue")));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.downloadCol.DefaultCellStyle = dataGridViewCellStyle4;
-            this.downloadCol.HeaderText = "Загрузка файла";
-            this.downloadCol.Name = "downloadCol";
-            this.downloadCol.ReadOnly = true;
-            this.downloadCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.downloadCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.downloadCol.Width = 142;
-            // 
-            // playCol
-            // 
-            this.playCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle5.NullValue")));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.playCol.DefaultCellStyle = dataGridViewCellStyle5;
-            this.playCol.HeaderText = "Воспроизвести";
-            this.playCol.Name = "playCol";
-            this.playCol.ReadOnly = true;
-            this.playCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.playCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.playCol.Width = 141;
-            // 
             // progressBarTemp
             // 
             this.progressBarTemp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -178,6 +128,59 @@
             // wmpTimer
             // 
             this.wmpTimer.Tick += new System.EventHandler(this.wmpTimer_Tick);
+            // 
+            // nameCol
+            // 
+            this.nameCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.nameCol.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nameCol.HeaderText = "Имя файла";
+            this.nameCol.MinimumWidth = 160;
+            this.nameCol.Name = "nameCol";
+            this.nameCol.ReadOnly = true;
+            this.nameCol.Width = 160;
+            // 
+            // sizeCol
+            // 
+            this.sizeCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.sizeCol.DefaultCellStyle = dataGridViewCellStyle3;
+            this.sizeCol.HeaderText = "Размер Файла";
+            this.sizeCol.MinimumWidth = 160;
+            this.sizeCol.Name = "sizeCol";
+            this.sizeCol.ReadOnly = true;
+            this.sizeCol.Width = 160;
+            // 
+            // downloadCol
+            // 
+            this.downloadCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle4.NullValue")));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.downloadCol.DefaultCellStyle = dataGridViewCellStyle4;
+            this.downloadCol.HeaderText = "Загрузка файла";
+            this.downloadCol.MinimumWidth = 100;
+            this.downloadCol.Name = "downloadCol";
+            this.downloadCol.ReadOnly = true;
+            this.downloadCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.downloadCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.downloadCol.Width = 142;
+            // 
+            // playCol
+            // 
+            this.playCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle5.NullValue")));
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.playCol.DefaultCellStyle = dataGridViewCellStyle5;
+            this.playCol.HeaderText = "Воспроизвести";
+            this.playCol.Name = "playCol";
+            this.playCol.ReadOnly = true;
+            this.playCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.playCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.playCol.Width = 141;
             // 
             // SoundWidget
             // 
@@ -202,10 +205,10 @@
         private System.Windows.Forms.Label SoundLabel;
         private System.Windows.Forms.DataGridView soundTable;
         private System.Windows.Forms.ProgressBar progressBarTemp;
+        private System.Windows.Forms.Timer wmpTimer;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn sizeCol;
         private System.Windows.Forms.DataGridViewImageColumn downloadCol;
         private System.Windows.Forms.DataGridViewImageColumn playCol;
-        private System.Windows.Forms.Timer wmpTimer;
     }
 }
