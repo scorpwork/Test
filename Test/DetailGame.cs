@@ -95,6 +95,35 @@ namespace Test
         }
 
         /// <summary>
+        /// Обновление структуры данных
+        /// </summary>
+        /// <param name="player">Игрок</param>
+        /// <param name="what">Тип обновляемых данных</param>
+        private void UpdatePlayerData(Player player, string what)
+        {
+            foreach(Game game in ObjectsContainer.GetData().games)
+            {
+                foreach(Team team in game.teams)
+                {
+                    foreach(Player curPlayer in team.players)
+                    {
+                        if (curPlayer.id == player.id)
+                        {
+                            if (what == "name")
+                            {
+                                curPlayer.name = player.name;
+                            }
+                            if (what == "rating")
+                            {
+                                curPlayer.rating = player.rating;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// метод сохранения имени
         /// </summary>
         /// <param name="player">Игрок</param>
@@ -103,7 +132,8 @@ namespace Test
             if (detailTable.CurrentCell.Value != null)
             {
                 player.name = detailTable.CurrentCell.Value.ToString();
-                player.Update(player.id, "name", player.name);
+                player.Update(player.id, "name", player.name, player.team);
+                UpdatePlayerData(player,"name");
             }
         }
 
@@ -116,7 +146,8 @@ namespace Test
             if (detailTable.CurrentCell.Value != null)
             {
                 player.rating = Convert.ToInt32(detailTable.CurrentCell.Value.ToString());
-                player.Update(player.id, "rating", player.rating.ToString());
+                player.Update(player.id, "rating", player.rating.ToString(), player.team);
+                UpdatePlayerData(player, "rating");
             }
         }
 
@@ -126,7 +157,17 @@ namespace Test
         /// <param name="player">Игрок</param>
         private void SaveAccuracy(Player player)
         {
-
+            if (detailTable.CurrentCell.Value != null)
+            {
+                string acStr = detailTable.CurrentCell.Value.ToString();
+                if (acStr.IndexOf("%") >= 0)
+                {
+                    acStr = acStr.Remove(acStr.IndexOf("%"), 1);
+                }
+                double accuracy = Convert.ToInt32(acStr)/100.0;
+                player.accuracy = accuracy;
+                player.Update(player.id, "accuracy", player.accuracy.ToString(),player.team);
+            }
         }
 
         /// <summary>
@@ -135,7 +176,11 @@ namespace Test
         /// <param name="player">Игрок</param>
         private void SaveShots(Player player)
         {
-
+            if (detailTable.CurrentCell.Value != null)
+            {
+                player.shots = Convert.ToInt32(detailTable.CurrentCell.Value.ToString());
+                player.Update(player.id, "shots", player.shots.ToString(), player.team);
+            }
         }
 
         /// <summary>
@@ -155,7 +200,7 @@ namespace Test
                         e.Handled = true;
                     }
                     break;
-                /*case 2:
+                case 2:
                     if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
                     {
                         e.Handled = true;
@@ -166,7 +211,7 @@ namespace Test
                     {
                         e.Handled = true;
                     }
-                    break;*/
+                    break;
             }
         }
 

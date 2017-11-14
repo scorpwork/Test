@@ -19,23 +19,63 @@ namespace Test
         public int rating { get; set; }
         public double accuracy { get; set; }
         public int shots { get; set; }
+        public int team { get; set; }
 
-        public void Save()
+        public int Save()
         {
-            string sqlstr = "INSERT INTO tbPlayers (name,rating,accuracy,shots) VALUES (" +
+            string sqlstr = "INSERT INTO tbPlayers (name,rating) VALUES (" +
                 "'" + name + "', " +
-                "'" + rating.ToString() + "', " +
-                "'" + accuracy.ToString().Replace(",",".") + "', " +
-                "'" + shots.ToString() + "'" +
-                ")";
+                "'" + rating + "' " +
+                ") ";
             this.id = DBWork.Insert(sqlstr);
+            int newId = FindPlayer();
+            if (newId != 0)
+            {
+                sqlstr = "DELETE FROM tbPlayers WHERE id = " + this.id.ToString();
+                DBWork.Exec(sqlstr);
+                this.id = newId;
+            }
+            return id;
         }
 
-        public static Player Load(int id)
+        public void SavePlayersByTeam(string idTeam, string idPlayer)
+        {
+            string sqlstr = "INSERT INTO tbPlayersByTeam (idTeam,idPlayer,accuracy,shots) VALUES (" +
+                "'" + idTeam + "', " +
+                "'" + idPlayer + "', " +
+                "'" + accuracy.ToString().Replace(",", ".") + "', " +
+                "'" + shots.ToString() + "'" +
+                ")";
+            DBWork.Insert(sqlstr);
+        }
+
+        private int FindPlayer()
+        {            
+            string sqlstr = "SELECT id FROM tbPlayers WHERE name = '" + name + "' AND id != " + id.ToString();
+            DataTable dataTable = DBWork.Select(sqlstr);
+            if (dataTable != null)
+            {
+                if (dataTable.Rows.Count > 0)
+                {
+                    for (int iRow = 0; iRow < dataTable.Rows.Count; iRow++)
+                    {
+                        return Convert.ToInt32(dataTable.Rows[iRow][0].ToString());
+                    }
+                }
+            }
+            return 0;
+        }
+
+        public static Player Load(int idPlayer, int idTeam)
         {
             Player player = new Player();
-            string sqlstr = "SELECT id,name,rating,accuracy,shots FROM tbPlayers where id = " + id.ToString();
+            string sqlstr = "SELECT t1.idPlayer,t2.name,t2.rating,accuracy,shots FROM tbPlayersByTeam t1 " +
+                "INNER JOIN tbPlayers t2 ON t1.idPlayer = t2.id where t1.idPlayer = " + idPlayer.ToString()+" AND idTeam = "+idTeam.ToString();
             DataTable dataTable = DBWork.Select(sqlstr);
+            if (dataTable == null)
+            {
+                return null;
+            }
             if (dataTable.Rows.Count > 0)
             {
                 for (int iRow = 0; iRow < dataTable.Rows.Count; iRow++)
@@ -47,16 +87,26 @@ namespace Test
                         player.rating = Convert.ToInt32(dataTable.Rows[iRow][2].ToString());
                         player.accuracy = Convert.ToDouble(dataTable.Rows[iRow][3].ToString());
                         player.shots = Convert.ToInt32(dataTable.Rows[iRow][4].ToString());
+                        player.team = idTeam;
                     }
                 }
             }
             return player;
         }
 
-        public void Update(int id, string what, string value)
+        public void Update(int id, string what, string value, int idTeam)
         {
-            string sqlstr = "UPDATE tbPlayers SET "+what+" = '"+value+"' WHERE id = "+id.ToString();
-            DBWork.Exec(sqlstr);
+            string sqlstr = "";
+            if ((what == "name") || (what == "rating"))
+            {
+                sqlstr = "UPDATE tbPlayers SET " + what + " = '" + value + "' WHERE id = " + id.ToString();
+            }
+            else
+            {
+                sqlstr = "UPDATE tbPlayersByTeam SET " + what + " = " + value.Replace(",", ".") + " WHERE idPlayer = " + id.ToString()+ " AND " +
+                    "idTeam = "+idTeam.ToString();
+            }
+            bool exec = DBWork.Exec(sqlstr);
         }
     }
 
@@ -73,15 +123,6 @@ namespace Test
         {
             string sqlstr = "INSERT INTO tbTeams (name) VALUES ('" + name + "') ";
             this.id = DBWork.Insert(sqlstr);
-
-            foreach (Player player in this.players)
-            {
-                sqlstr = "INSERT INTO tbPlayersByTeam (idTeam,idPlayer) VALUES (" +
-                "'" + this.id + "', " +
-                "'" + player.id + "' " +
-                ")";
-                DBWork.Insert(sqlstr);
-            }
         }
 
         public static Team Load(int id)
@@ -100,7 +141,7 @@ namespace Test
                         List<Player> players = new List<Player>();
                         foreach (int playerId in Team.GetPlayersId(team.id))
                         {
-                            players.Add(Player.Load(playerId));
+                            players.Add(Player.Load(playerId, team.id));
                         }
                         team.players = players;
                     }

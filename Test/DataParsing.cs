@@ -113,15 +113,16 @@ namespace Test
         public void SaveJSON()
         {
             DBWork.ClearTables(DBWork.tablesList);
+            List<string> playerNames = new List<string>();
             foreach (Game game in deserializeObject.games)
             {
                 foreach (Team team in game.teams)
                 {
+                    team.Save();
                     foreach (Player player in team.players)
                     {
-                        player.Save();
+                        player.SavePlayersByTeam(team.id.ToString(), player.Save().ToString());
                     }
-                    team.Save();
                 }
                 game.Save();
             }

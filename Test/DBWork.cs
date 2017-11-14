@@ -50,7 +50,7 @@ namespace Test
                 sqlCmd.Connection = dbConnect;
                 //tbPlayers
                 sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS tbPlayers (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name TEXT NOT NULL, rating INTEGER, accuracy REAL, shots INTEGER)";
+                    "name TEXT NOT NULL, rating INTEGER)";//, rating INTEGER, accuracy REAL, shots INTEGER)";
                 sqlCmd.ExecuteNonQuery();
                 //tbTeams
                 sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS tbTeams (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -58,7 +58,7 @@ namespace Test
                 sqlCmd.ExecuteNonQuery();
                 //tbPlayersByTeam
                 sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS tbPlayersByTeam (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "idTeam INTEGER, idPlayer INTEGER)";
+                    "idTeam INTEGER, idPlayer INTEGER, accuracy REAL, shots INTEGER)";
                 sqlCmd.ExecuteNonQuery();
                 //tbGames
                 sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS tbGames (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
