@@ -99,7 +99,8 @@ namespace Test
         /// </summary>
         /// <param name="player">Игрок</param>
         /// <param name="what">Тип обновляемых данных</param>
-        private void UpdatePlayerData(Player player, string what)
+        //private void UpdatePlayerData(Player player, string what)
+        public static void UpdatePlayerData(Player player, string what)
         {
             foreach(Game game in ObjectsContainer.GetData().games)
             {
@@ -165,6 +166,10 @@ namespace Test
                     acStr = acStr.Remove(acStr.IndexOf("%"), 1);
                 }
                 double accuracy = Convert.ToInt32(acStr)/100.0;
+                if (accuracy > 1)
+                {
+                    accuracy = 1;
+                }
                 player.accuracy = accuracy;
                 player.Update(player.id, "accuracy", player.accuracy.ToString(),player.team);
             }
@@ -192,26 +197,21 @@ namespace Test
         {
             Player player = (Player)detailTable.CurrentRow.Tag;
             int col = detailTable.CurrentCell.ColumnIndex;
-            switch (col)
+            if (col!=0)
             {
-                case 1:
-                    if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
-                    {
-                        e.Handled = true;
-                    }
-                    break;
-                case 2:
-                    if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
-                    {
-                        e.Handled = true;
-                    }
-                    break;
-                case 3:
-                    if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
-                    {
-                        e.Handled = true;
-                    }
-                    break;
+                KeyValidation(e);
+            }
+        }
+
+        /// <summary>
+        /// Валидация ввода
+        /// </summary>
+        /// <param name="e"></param>
+        private void KeyValidation(KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
+            {
+                e.Handled = true;
             }
         }
 
@@ -227,6 +227,54 @@ namespace Test
                 TextBox tb = (TextBox)e.Control;
                 tb.KeyPress += new KeyPressEventHandler(detailTable_KeyPress);
             }
+        }
+
+        /// <summary>
+        /// Вызов формы редактирования
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void detailTable_DoubleClick(object sender, EventArgs e)
+        {
+            if (detailTable.CurrentRow.Tag != null)
+            {
+                Validate();
+                detailTable.Update();
+                detailTable.EndEdit();
+                Player player = (Player)detailTable.CurrentRow.Tag;
+                int col = detailTable.CurrentCell.ColumnIndex;
+                TransparentForm.Get().Show();
+                PlayerEditor editor = new PlayerEditor(player);
+                editor.FormClosed += editor_Closed;
+                editor.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// Закрытие формы редактирования
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void editor_Closed(object sender, FormClosedEventArgs e)
+        {
+            TransparentForm.Get().Close();
+            TransparentForm.Get().Delete();
+            UpdateDetailTableRow();
+            this.Activate();
+        }
+
+        /// <summary>
+        /// Обновление строки таблицы
+        /// </summary>
+        private void UpdateDetailTableRow()
+        {
+            Player player = (Player)detailTable.CurrentRow.Tag;
+            int index = detailTable.CurrentRow.Index;
+            detailTable.Rows[index].Cells[0].Value = player.name;
+            detailTable.Rows[index].Cells[1].Value = player.rating.ToString();
+            detailTable.Rows[index].Cells[2].Value = (player.accuracy * 100).ToString() + "%";
+            detailTable.Rows[index].Cells[3].Value = player.shots.ToString();
+            detailTable.Rows[index].Tag = player;            
         }
     }
 }

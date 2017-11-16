@@ -36,12 +36,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.detailLabel = new System.Windows.Forms.Label();
-            this.backButton = new System.Windows.Forms.Button();
             this.detailTable = new System.Windows.Forms.DataGridView();
             this.playerCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ratingCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accuracyCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shotsCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.backButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.detailTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,19 +55,6 @@
             this.detailLabel.Size = new System.Drawing.Size(68, 50);
             this.detailLabel.TabIndex = 0;
             this.detailLabel.Text = "ИГРА";
-            // 
-            // backButton
-            // 
-            this.backButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.backButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.backButton.Image = global::Test.Properties.Resources.back;
-            this.backButton.Location = new System.Drawing.Point(13, 13);
-            this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(22, 23);
-            this.backButton.TabIndex = 1;
-            this.backButton.UseVisualStyleBackColor = true;
-            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // detailTable
             // 
@@ -126,6 +113,7 @@
             this.detailTable.TabIndex = 2;
             this.detailTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.detailTable_CellEndEdit);
             this.detailTable.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.detailTable_EditingControlShowing);
+            this.detailTable.DoubleClick += new System.EventHandler(this.detailTable_DoubleClick);
             this.detailTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.detailTable_KeyPress);
             // 
             // playerCell
@@ -178,6 +166,19 @@
             this.shotsCell.MinimumWidth = 160;
             this.shotsCell.Name = "shotsCell";
             this.shotsCell.Width = 160;
+            // 
+            // backButton
+            // 
+            this.backButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.backButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.backButton.Image = global::Test.Properties.Resources.back;
+            this.backButton.Location = new System.Drawing.Point(13, 13);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(22, 23);
+            this.backButton.TabIndex = 1;
+            this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // DetailGame
             // 
