@@ -37,11 +37,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.detailLabel = new System.Windows.Forms.Label();
             this.detailTable = new System.Windows.Forms.DataGridView();
+            this.backButton = new System.Windows.Forms.Button();
             this.playerCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ratingCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.accuracyCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shotsCell = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.backButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.detailTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,6 +116,19 @@
             this.detailTable.DoubleClick += new System.EventHandler(this.detailTable_DoubleClick);
             this.detailTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.detailTable_KeyPress);
             // 
+            // backButton
+            // 
+            this.backButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.backButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.backButton.Image = global::Test.Properties.Resources.back;
+            this.backButton.Location = new System.Drawing.Point(13, 13);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(22, 23);
+            this.backButton.TabIndex = 1;
+            this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            // 
             // playerCell
             // 
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomLeft;
@@ -126,6 +139,7 @@
             this.playerCell.HeaderText = "Игрок";
             this.playerCell.MinimumWidth = 160;
             this.playerCell.Name = "playerCell";
+            this.playerCell.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.playerCell.Width = 160;
             // 
             // ratingCell
@@ -139,6 +153,7 @@
             this.ratingCell.HeaderText = "Рейтинг";
             this.ratingCell.MinimumWidth = 160;
             this.ratingCell.Name = "ratingCell";
+            this.ratingCell.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.ratingCell.Width = 160;
             // 
             // accuracyCell
@@ -152,6 +167,7 @@
             this.accuracyCell.HeaderText = "Точность";
             this.accuracyCell.MinimumWidth = 160;
             this.accuracyCell.Name = "accuracyCell";
+            this.accuracyCell.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.accuracyCell.Width = 160;
             // 
             // shotsCell
@@ -165,20 +181,8 @@
             this.shotsCell.HeaderText = "Выстрелы";
             this.shotsCell.MinimumWidth = 160;
             this.shotsCell.Name = "shotsCell";
+            this.shotsCell.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.shotsCell.Width = 160;
-            // 
-            // backButton
-            // 
-            this.backButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.backButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.backButton.Image = global::Test.Properties.Resources.back;
-            this.backButton.Location = new System.Drawing.Point(13, 13);
-            this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(22, 23);
-            this.backButton.TabIndex = 1;
-            this.backButton.UseVisualStyleBackColor = true;
-            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // DetailGame
             // 
