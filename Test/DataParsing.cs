@@ -29,7 +29,8 @@ namespace Test
         {
             if (urlStr.Length == 0)
             {
-                MessageBox.Show("Введите адрес", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Введите адрес", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Msg.Show(MainForm.Get(),"Ошибка","Введите адрес");                
                 return "";
             }
             WebClient webClient = new WebClient();
@@ -101,9 +102,12 @@ namespace Test
         /// </summary>
         public void DeserializeXML()
         {
-            foreach (Game game in deserializeObject.games)
+            if (deserializeObject != null)
             {
-                DeserializeGame(game);
+                foreach (Game game in deserializeObject.games)
+                {
+                    DeserializeGame(game);
+                }
             }
         }
 

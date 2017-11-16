@@ -15,7 +15,8 @@ namespace Test
         {
             InitializeComponent();
             InitializeDB();
-            ObjectsContainer data = ObjectsContainer.GetData();            
+            ObjectsContainer data = ObjectsContainer.GetData();
+            mainFormObject = this;
         }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace Test
             Cursor.Current = Cursors.WaitCursor;
             PanelsVisible(false, true, false);
             SoundWidget soundWidget = new SoundWidget();
-            FormLoad(soundWidget, this.panelSounds);            
+            FormLoad(soundWidget, this.panelSounds);
             Cursor.Current = Cursors.Default;
         }
 
@@ -93,7 +94,7 @@ namespace Test
             PanelsVisible(false, false, true);
             GameWidget gameWidget = new GameWidget();
             FormLoad(gameWidget, this.panelGames);
-            Cursor.Current = Cursors.Default;            
+            Cursor.Current = Cursors.Default;
         }
 
         /// <summary>
@@ -105,12 +106,18 @@ namespace Test
         {
             if (e.KeyCode == Keys.Escape)
             {
-                if (MessageBox.Show("Выйти из программы?", "Предупреждение", 
+                if (MessageBox.Show("Выйти из программы?", "Предупреждение",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     Application.Exit();
-                }                    
+                }
             }
+        }
+
+        private static MainForm mainFormObject { get; set; }
+        public static MainForm Get()
+        {
+            return mainFormObject;
         }
     }
 }

@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.mainControlPanel = new System.Windows.Forms.Panel();
-            this.panelDownload = new System.Windows.Forms.Panel();
-            this.panelSounds = new System.Windows.Forms.Panel();
-            this.panelGames = new System.Windows.Forms.Panel();
             this.gamesRb = new System.Windows.Forms.RadioButton();
             this.downloadRb = new System.Windows.Forms.RadioButton();
             this.soundRb = new System.Windows.Forms.RadioButton();
+            this.panelDownload = new System.Windows.Forms.Panel();
+            this.panelSounds = new System.Windows.Forms.Panel();
+            this.panelGames = new System.Windows.Forms.Panel();
             this.mainControlPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,30 +49,6 @@
             this.mainControlPanel.Name = "mainControlPanel";
             this.mainControlPanel.Size = new System.Drawing.Size(83, 482);
             this.mainControlPanel.TabIndex = 0;
-            // 
-            // panelDownload
-            // 
-            this.panelDownload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDownload.Location = new System.Drawing.Point(83, 0);
-            this.panelDownload.Name = "panelDownload";
-            this.panelDownload.Size = new System.Drawing.Size(680, 482);
-            this.panelDownload.TabIndex = 1;
-            // 
-            // panelSounds
-            // 
-            this.panelSounds.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSounds.Location = new System.Drawing.Point(83, 0);
-            this.panelSounds.Name = "panelSounds";
-            this.panelSounds.Size = new System.Drawing.Size(680, 482);
-            this.panelSounds.TabIndex = 2;
-            // 
-            // panelGames
-            // 
-            this.panelGames.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelGames.Location = new System.Drawing.Point(83, 0);
-            this.panelGames.Name = "panelGames";
-            this.panelGames.Size = new System.Drawing.Size(680, 482);
-            this.panelGames.TabIndex = 3;
             // 
             // gamesRb
             // 
@@ -133,6 +109,30 @@
             this.soundRb.TabStop = true;
             this.soundRb.UseVisualStyleBackColor = true;
             this.soundRb.CheckedChanged += new System.EventHandler(this.soundRb_CheckedChanged);
+            // 
+            // panelDownload
+            // 
+            this.panelDownload.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDownload.Location = new System.Drawing.Point(83, 0);
+            this.panelDownload.Name = "panelDownload";
+            this.panelDownload.Size = new System.Drawing.Size(680, 482);
+            this.panelDownload.TabIndex = 1;
+            // 
+            // panelSounds
+            // 
+            this.panelSounds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelSounds.Location = new System.Drawing.Point(83, 0);
+            this.panelSounds.Name = "panelSounds";
+            this.panelSounds.Size = new System.Drawing.Size(680, 482);
+            this.panelSounds.TabIndex = 2;
+            // 
+            // panelGames
+            // 
+            this.panelGames.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelGames.Location = new System.Drawing.Point(83, 0);
+            this.panelGames.Name = "panelGames";
+            this.panelGames.Size = new System.Drawing.Size(680, 482);
+            this.panelGames.TabIndex = 3;
             // 
             // MainForm
             // 

@@ -41,6 +41,7 @@
             this.Opacity = 0.5D;
             this.Text = "TransparentForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TransparentForm_FormClosed);
             this.ResumeLayout(false);
 
         }

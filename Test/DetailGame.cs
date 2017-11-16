@@ -257,6 +257,7 @@ namespace Test
         /// <param name="e"></param>
         private void editor_Closed(object sender, FormClosedEventArgs e)
         {
+            TransparentForm.parent = this;
             TransparentForm.Get().Close();
             TransparentForm.Get().Delete();
             UpdateDetailTableRow();
@@ -275,6 +276,16 @@ namespace Test
             detailTable.Rows[index].Cells[2].Value = (player.accuracy * 100).ToString() + "%";
             detailTable.Rows[index].Cells[3].Value = player.shots.ToString();
             detailTable.Rows[index].Tag = player;            
+        }
+
+        private void saveVK_Click(object sender, EventArgs e)
+        {
+            Msg.Show(this, "Предупреждение", "В разработке");
+        }
+
+        private void savePDF_Click(object sender, EventArgs e)
+        {
+            Msg.Show(this, "Предупреждение", "В разработке");
         }
     }
 }

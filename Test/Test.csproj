@@ -94,6 +94,12 @@
       <DependentUpon>DownloadWidget.cs</DependentUpon>
     </Compile>
     <Compile Include="DataParsing.cs" />
+    <Compile Include="Msg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Msg.Designer.cs">
+      <DependentUpon>Msg.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlayerEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DownloadWidget.resx">
       <DependentUpon>DownloadWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Msg.resx">
+      <DependentUpon>Msg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlayerEditor.resx">
       <DependentUpon>PlayerEditor.cs</DependentUpon>

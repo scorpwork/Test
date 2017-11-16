@@ -12,11 +12,7 @@ namespace Test
     public partial class TransparentForm : Form
     {
         public static TransparentForm transparent { get; set; }
-
-        /*~TransparentForm()
-        {
-            transparent = null;
-        }*/
+        public static Form parent { get; set; }
 
         public TransparentForm()
         {
@@ -37,6 +33,12 @@ namespace Test
             transparent = null;
         }
 
-
+        private void TransparentForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (parent != null)
+            {
+                parent.Activate();
+            }
+        }
     }
 }

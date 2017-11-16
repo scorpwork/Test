@@ -91,7 +91,7 @@ namespace Test
         /// <returns></returns>
         private bool SaveName()
         {
-            if (nameTextBox.Text != null)
+            if (nameTextBox.Text != "")
             {
                 player.name = nameTextBox.Text;
                 player.Update(player.id, "name", player.name, player.team);
@@ -99,7 +99,8 @@ namespace Test
             }
             else
             {
-                MessageBox.Show("Предупреждение", "Введите имя игрока");
+                //MessageBox.Show("Предупреждение", "Введите имя игрока");
+                Msg.Show(this, "Предупреждение", "Введите имя игрока");
                 return false;
             }
             return true;
@@ -111,7 +112,7 @@ namespace Test
         /// <returns></returns>
         private bool SaveRating()
         {
-            if (ratingTextBox.Text != null)
+            if (ratingTextBox.Text != "")
             {
                 player.rating = Convert.ToInt32(ratingTextBox.Text.ToString());
                 player.Update(player.id, "rating", player.rating.ToString(), player.team);
@@ -119,7 +120,8 @@ namespace Test
             }
             else
             {
-                MessageBox.Show("Предупреждение", "Введите рейтинг игрока");
+                //MessageBox.Show("Предупреждение", "Введите рейтинг игрока");
+                Msg.Show(this, "Предупреждение", "Введите рейтинг игрока");
                 return false;
             }
             return true;
@@ -131,7 +133,7 @@ namespace Test
         /// <returns></returns>
         private bool SaveAccuracy()
         {
-            if (accuracyTextBox.Text != null)
+            if (accuracyTextBox.Text != "")
             {
                 string acStr = accuracyTextBox.Text;
                 if (acStr.IndexOf("%") >= 0)
@@ -148,7 +150,8 @@ namespace Test
             }
             else
             {
-                MessageBox.Show("Предупреждение", "Введите точность игрока");
+                //MessageBox.Show("Предупреждение", "Введите точность игрока");
+                Msg.Show(this, "Предупреждение", "Введите точность игрока");
                 return false;
             }
             return true;
@@ -160,14 +163,15 @@ namespace Test
         /// <returns></returns>
         private bool SaveShots()
         {
-            if (shotsTextBox.Text != null)
+            if (shotsTextBox.Text != "")
             {
                 player.shots = Convert.ToInt32(shotsTextBox.Text);
                 player.Update(player.id, "shots", player.shots.ToString(), player.team);
             }
             else
             {
-                MessageBox.Show("Предупреждение", "Введите количество выстрелов игрока");
+                //MessageBox.Show("Предупреждение", "Введите количество выстрелов игрока");
+                Msg.Show(this, "Предупреждение", "Введите количество выстрелов игрока");
                 return false;
             }
             return true;
