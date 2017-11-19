@@ -285,7 +285,9 @@ namespace Test
 
         private void savePDF_Click(object sender, EventArgs e)
         {
-            Msg.Show(this, "Предупреждение", "В разработке");
+            //Msg.Show(this, "Предупреждение", "В разработке");
+            PDFWork pdf = new PDFWork();
+            pdf.CreatePDF(game, detailTable);
         }
     }
 }
