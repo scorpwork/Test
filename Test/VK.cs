@@ -90,7 +90,7 @@ namespace Test
             }
             catch
             {
-                Msg.Show(MainForm.Get(), "Ошибка", "Ошибка авторизации пользователя");
+                Msg.Show(this, "Ошибка", "Ошибка авторизации пользователя");
                 return null;
             }
         }

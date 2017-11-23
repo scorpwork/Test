@@ -286,6 +286,7 @@ namespace Test
         private void saveVK_Click(object sender, EventArgs e)
         {
             VK vk = new VK();
+            //TransparentForm.parent = this;
             TransparentForm.Get().Show();
             vk.ShowDialog();
         }

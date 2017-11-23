@@ -24,6 +24,7 @@ namespace Test
             msgTransporent = new TransparentForm();
             msgTransporent.Show();
             Msg msg = new Msg();
+            msg.SetTopLevel(true);
             msg.headerLabel.Text = header;
             msg.textLabel.Text = text;
             msg.ShowDialog();
