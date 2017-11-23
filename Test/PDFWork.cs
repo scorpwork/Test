@@ -24,7 +24,7 @@ namespace Test
                 PdfWriter writer;
                 try
                 {
-                    writer = PdfWriter.GetInstance(doc, new FileStream(game.name+".pdf", FileMode.Create));
+                    writer = PdfWriter.GetInstance(doc, new FileStream("Reports\\"+game.name+".pdf", FileMode.Create));
                 }
                 catch
                 {

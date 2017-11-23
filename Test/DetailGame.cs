@@ -278,16 +278,30 @@ namespace Test
             detailTable.Rows[index].Tag = player;            
         }
 
+        /// <summary>
+        /// Обработчик кнопки ВК
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveVK_Click(object sender, EventArgs e)
         {
-            Msg.Show(this, "Предупреждение", "В разработке");
+            VK vk = new VK();
+            TransparentForm.Get().Show();
+            vk.ShowDialog();
         }
 
+        /// <summary>
+        /// Обработчик кнопки PDF
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void savePDF_Click(object sender, EventArgs e)
         {
-            //Msg.Show(this, "Предупреждение", "В разработке");
+            Cursor.Current = Cursors.WaitCursor;
             PDFWork pdf = new PDFWork();
             pdf.CreatePDF(game, detailTable);
+            Cursor.Current = Cursors.Default;
         }
+
     }
 }
