@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Test
 {
@@ -43,6 +44,8 @@ namespace Test
         private void downloadBt_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
+            Thread wait = new System.Threading.Thread(TransparentForm.Wait);
+            wait.Start();
             ObjectsContainer.ClearData();
             statusLabel.Visible = false;
             JSONParsing json = new JSONParsing();
@@ -54,7 +57,10 @@ namespace Test
                 ObjectsContainer.GetData();
                 ShowJsonStatistic(deserializeJSON);
                 statusLabel.Visible = true;
-            }            
+            }
+            TransparentForm.Reset();
+            wait.Abort();
+            wait.Join(500);
             Cursor.Current = Cursors.Default;
         }        
 

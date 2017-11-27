@@ -70,7 +70,6 @@
             this.loginTextbox.Name = "loginTextbox";
             this.loginTextbox.Size = new System.Drawing.Size(220, 23);
             this.loginTextbox.TabIndex = 2;
-            this.loginTextbox.Text = "scorpwork@mail.ru";
             // 
             // passTextbox
             // 

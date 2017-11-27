@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading;
 using System.Media;
 using WMPLib;
+using System.IO;
 
 namespace Test
 {
@@ -32,6 +33,7 @@ namespace Test
         private void PrepareSoundTable()
         {            
             ObjectsContainer data = ObjectsContainer.GetData();
+            List<string> soundFiles = Directory.GetFiles(@"download", "*.wav").ToList<string>();
             soundTable.Rows.Clear();
             int iterator = 0;
             foreach (Sound sound in data.sounds)
@@ -40,7 +42,24 @@ namespace Test
                 soundTable.Rows[iterator].Cells[0].Value = sound.name;
                 soundTable.Rows[iterator].Cells[1].Value = GetCorrectSize(sound.size);
                 SetCellIcon(iterator, 2, Properties.Resources.download_sound);
-                SetCellIcon(iterator, 3, Properties.Resources.play_disabled);
+                bool findFile = false;
+                foreach (string doc in soundFiles)
+                {
+                    string file = doc.Remove(0, doc.IndexOf("\\") + 1).ToString();
+                    if (sound.name + ".wav" == file)
+                    {
+                        SetCellIcon(iterator, 3, Properties.Resources.play);
+                        SetCellIcon(iterator, 2, Properties.Resources.downloaded_sound);
+                        soundTable.Rows[iterator].Tag = true;
+                        findFile = true;
+                        break;
+                    }
+                }
+                if (!findFile)
+                {
+                    SetCellIcon(iterator, 3, Properties.Resources.play_disabled);
+                    soundTable.Rows[iterator].Tag = false;
+                }
                 iterator++;
             }
         }
@@ -106,7 +125,11 @@ namespace Test
                 try
                 {
                     //PlaySound(GetCurrentSound());
-                    PlaySoundWMP(GetCurrentSound());
+                    bool isDownload = (bool)soundTable.CurrentRow.Tag;
+                    if (isDownload)
+                    {
+                        PlaySoundWMP(GetCurrentSound());
+                    }
                 }
                 catch
                 { }
@@ -164,6 +187,7 @@ namespace Test
             progressBarTemp.Value = 0;
             SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
             SetCellIcon(soundTable.CurrentRow.Index, 2, Properties.Resources.downloaded_sound);
+            soundTable.CurrentRow.Tag = true;
             soundTable.ClearSelection();
             //this.Refresh();
         }
@@ -237,9 +261,25 @@ namespace Test
         /// <param name="sound">Объект композиции</param>
         private void PlaySoundWMP(Sound sound)
         {
+            ResetStopIcon();
             SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.stop);
             wmpTimer.Start();
             GetWMP().URL = AppDomain.CurrentDomain.BaseDirectory + "\\download\\" + sound.name + ".wav";            
+        }
+
+        private void ResetStopIcon()
+        {
+            for (int iRow = 0; iRow < soundTable.RowCount; iRow++)
+            {
+                if ((bool)soundTable.Rows[iRow].Tag == true)
+                {
+                    SetCellIcon(iRow, 3, Properties.Resources.play);
+                }
+                else
+                {
+                    SetCellIcon(iRow, 3, Properties.Resources.play_disabled);
+                }
+            }
         }
 
         /// <summary>
@@ -249,10 +289,14 @@ namespace Test
         {
             WMPPlayState playState = GetWMP().playState;
             if ((GetWMP().playState == WMPLib.WMPPlayState.wmppsMediaEnded) ||
-                (GetWMP().playState == WMPLib.WMPPlayState.wmppsStopped))
+                (GetWMP().playState == WMPLib.WMPPlayState.wmppsStopped) /*||
+                (GetWMP().playState == WMPLib.WMPPlayState.wmpps)*/)
             {
                 wmpTimer.Stop();
-                SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+                if ((bool)soundTable.CurrentRow.Tag != false)
+                { 
+                    SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+                }
                 soundTable.ClearSelection();
             }
         }
@@ -266,5 +310,44 @@ namespace Test
         {
             WMPPlay();
         }
+
+        /// <summary>
+        /// Установка доступных иконок для проигрывания
+        /// </summary>
+        /*private void SetDownloadIcons()
+        {
+            List<string> fileSounds = Directory.GetFiles(@"download", "*.wav").ToList<string>();
+            List<string> tableSounds = GetSoundsInTable();
+            int iterator = 0;
+            foreach (string doc in fileSounds)
+            {
+                string file = doc.Remove(0, doc.IndexOf("\\") + 1).ToString();
+                int tbIndex = 0;
+                foreach (string sound in tableSounds)
+                {
+                    if (sound+".wav" == file)
+                    {
+                        SetCellIcon(tbIndex, 3, Properties.Resources.play);
+                    }
+                    tbIndex++;
+                }
+                iterator++;
+            }
+            soundTable.ClearSelection();
+        }*/
+
+        /// <summary>
+        /// Получение списка композиций
+        /// </summary>
+        /// <returns>Список композиций</returns>
+        /*private List<string> GetSoundsInTable()
+        {
+            List<string> sounds = new List<string>();
+            for (int iRow = 0; iRow < soundTable.RowCount; iRow++)
+            {
+                sounds.Add(soundTable.Rows[iRow].Cells[0].Value.ToString());
+            }
+            return sounds;
+        }*/
     }
 }
