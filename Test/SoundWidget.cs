@@ -31,7 +31,7 @@ namespace Test
         /// Подготовка таблицы с музыкой
         /// </summary>
         private void PrepareSoundTable()
-        {            
+        {
             ObjectsContainer data = ObjectsContainer.GetData();
             List<string> soundFiles = Directory.GetFiles(@"download", "*.wav").ToList<string>();
             soundTable.Rows.Clear();
@@ -41,7 +41,8 @@ namespace Test
                 soundTable.Rows.Add();
                 soundTable.Rows[iterator].Cells[0].Value = sound.name;
                 soundTable.Rows[iterator].Cells[1].Value = GetCorrectSize(sound.size);
-                SetCellIcon(iterator, 2, Properties.Resources.download_sound);
+                soundTable.Rows[iterator].Cells[2].Value = 0;
+                //SetCellIcon(iterator, 2, Properties.Resources.download_sound);
                 bool findFile = false;
                 foreach (string doc in soundFiles)
                 {
@@ -49,7 +50,8 @@ namespace Test
                     if (sound.name + ".wav" == file)
                     {
                         SetCellIcon(iterator, 3, Properties.Resources.play);
-                        SetCellIcon(iterator, 2, Properties.Resources.downloaded_sound);
+                        soundTable.Rows[iterator].Cells[2].Value = -1;
+                        //SetCellIcon(iterator, 2, Properties.Resources.downloaded_sound);
                         soundTable.Rows[iterator].Tag = true;
                         findFile = true;
                         break;
@@ -110,15 +112,12 @@ namespace Test
             {
                 try
                 {
+                    Cursor.Current = Cursors.WaitCursor;
                     DownloadSound(GetCurrentSound());
-                    /*progressBarTemp.Value = 0;
-                    SetActivePlayIcon(soundTable.CurrentRow.Index, 3);
-                    SetDisActiveDownloadIcon(soundTable.CurrentRow.Index, 2);
-                    soundTable.ClearSelection();
-                    this.Refresh(); */                   
+                    Cursor.Current = Cursors.Default;
                 }
                 catch
-                {}
+                { }
             }
             if (soundTable.CurrentCell.ColumnIndex == 3)
             {
@@ -171,7 +170,10 @@ namespace Test
             double bytesIn = double.Parse(e.BytesReceived.ToString());
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
-            progressBarTemp.Value = int.Parse(Math.Truncate(percentage).ToString());
+            int value = int.Parse(Math.Truncate(percentage).ToString());
+            soundTable.Rows[soundTable.CurrentRow.Index].Cells[2].Value = value;
+            soundTable.ClearSelection();
+            //progressBarTemp.Value = value;
         }
 
         /// <summary>
@@ -184,9 +186,10 @@ namespace Test
             var client = (WebClient)sender;
             client.DownloadProgressChanged -= OnDownloadProgressChanged;
             client.DownloadFileCompleted -= OnDownloadComplete;
-            progressBarTemp.Value = 0;
+            //progressBarTemp.Value = 0;
             SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
             SetCellIcon(soundTable.CurrentRow.Index, 2, Properties.Resources.downloaded_sound);
+            soundTable.Rows[soundTable.CurrentRow.Index].Cells[2].Value = 100;
             soundTable.CurrentRow.Tag = true;
             soundTable.ClearSelection();
             //this.Refresh();
@@ -195,7 +198,7 @@ namespace Test
         //Работа с потоками
         private void DownloadSoundV2(Sound sound)
         {
-            Thread thread = new Thread(() => 
+            Thread thread = new Thread(() =>
             {
                 WebClient client = new WebClient();
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
@@ -215,7 +218,7 @@ namespace Test
                 double percentage = bytesIn / totalBytes * 100;
                 // + e.BytesReceived + " of " + e.TotalBytesToReceive;
                 //Thread.Sleep(100);
-                progressBarTemp.Value = int.Parse(Math.Truncate(percentage).ToString());
+                //progressBarTemp.Value = int.Parse(Math.Truncate(percentage).ToString());
                 //Thread.Sleep(100);
             });
         }
@@ -225,7 +228,7 @@ namespace Test
             //this.BeginInvoke((MethodInvoker)delegate 
             this.Invoke((MethodInvoker)delegate
             {
-                progressBarTemp.Value = 0;
+                //progressBarTemp.Value = 0;
                 SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
                 SetCellIcon(soundTable.CurrentRow.Index, 2, Properties.Resources.downloaded_sound);
             });
@@ -264,7 +267,7 @@ namespace Test
             ResetStopIcon();
             SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.stop);
             wmpTimer.Start();
-            GetWMP().URL = AppDomain.CurrentDomain.BaseDirectory + "\\download\\" + sound.name + ".wav";            
+            GetWMP().URL = AppDomain.CurrentDomain.BaseDirectory + "\\download\\" + sound.name + ".wav";
         }
 
         private void ResetStopIcon()
@@ -294,7 +297,7 @@ namespace Test
             {
                 wmpTimer.Stop();
                 if ((bool)soundTable.CurrentRow.Tag != false)
-                { 
+                {
                     SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
                 }
                 soundTable.ClearSelection();
@@ -310,44 +313,6 @@ namespace Test
         {
             WMPPlay();
         }
-
-        /// <summary>
-        /// Установка доступных иконок для проигрывания
-        /// </summary>
-        /*private void SetDownloadIcons()
-        {
-            List<string> fileSounds = Directory.GetFiles(@"download", "*.wav").ToList<string>();
-            List<string> tableSounds = GetSoundsInTable();
-            int iterator = 0;
-            foreach (string doc in fileSounds)
-            {
-                string file = doc.Remove(0, doc.IndexOf("\\") + 1).ToString();
-                int tbIndex = 0;
-                foreach (string sound in tableSounds)
-                {
-                    if (sound+".wav" == file)
-                    {
-                        SetCellIcon(tbIndex, 3, Properties.Resources.play);
-                    }
-                    tbIndex++;
-                }
-                iterator++;
-            }
-            soundTable.ClearSelection();
-        }*/
-
-        /// <summary>
-        /// Получение списка композиций
-        /// </summary>
-        /// <returns>Список композиций</returns>
-        /*private List<string> GetSoundsInTable()
-        {
-            List<string> sounds = new List<string>();
-            for (int iRow = 0; iRow < soundTable.RowCount; iRow++)
-            {
-                sounds.Add(soundTable.Rows[iRow].Cells[0].Value.ToString());
-            }
-            return sounds;
-        }*/
     }
 }
+

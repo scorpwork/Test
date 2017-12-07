@@ -110,6 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataGridViewProgressCell.cs" />
+    <Compile Include="DataGridViewProgressColumn.cs" />
     <Compile Include="DBWork.cs" />
     <Compile Include="DetailGame.cs">
       <SubType>Form</SubType>
