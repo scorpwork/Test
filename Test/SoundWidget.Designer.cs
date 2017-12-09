@@ -34,6 +34,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoundWidget));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,9 +43,11 @@
             this.soundTable = new System.Windows.Forms.DataGridView();
             this.nameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.downloadCol = new Test.DataGridViewProgressColumn();
-            this.playCol = new System.Windows.Forms.DataGridViewImageColumn();
             this.wmpTimer = new System.Windows.Forms.Timer(this.components);
+            this.dataGridViewProgressColumn1 = new Test.DataGridViewProgressColumn();
+            this.dgMusicProgressColumn1 = new Test.DGMusicProgressColumn();
+            this.downloadCol = new Test.DataGridViewProgressColumn();
+            this.playCol = new Test.DGMusicProgressColumn();
             ((System.ComponentModel.ISupportInitialize)(this.soundTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -137,6 +141,41 @@
             this.sizeCol.ReadOnly = true;
             this.sizeCol.Width = 160;
             // 
+            // wmpTimer
+            // 
+            this.wmpTimer.Tick += new System.EventHandler(this.wmpTimer_Tick);
+            // 
+            // dataGridViewProgressColumn1
+            // 
+            this.dataGridViewProgressColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle8.NullValue")));
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewProgressColumn1.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridViewProgressColumn1.HeaderText = "Загрузка файла";
+            this.dataGridViewProgressColumn1.MinimumWidth = 100;
+            this.dataGridViewProgressColumn1.Name = "dataGridViewProgressColumn1";
+            this.dataGridViewProgressColumn1.ReadOnly = true;
+            this.dataGridViewProgressColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewProgressColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewProgressColumn1.Width = 142;
+            // 
+            // dgMusicProgressColumn1
+            // 
+            this.dgMusicProgressColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle9.NullValue")));
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgMusicProgressColumn1.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dgMusicProgressColumn1.HeaderText = "Воспроизвести";
+            this.dgMusicProgressColumn1.Name = "dgMusicProgressColumn1";
+            this.dgMusicProgressColumn1.ReadOnly = true;
+            this.dgMusicProgressColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgMusicProgressColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgMusicProgressColumn1.Width = 141;
+            // 
             // downloadCol
             // 
             this.downloadCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -168,10 +207,6 @@
             this.playCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.playCol.Width = 141;
             // 
-            // wmpTimer
-            // 
-            this.wmpTimer.Tick += new System.EventHandler(this.wmpTimer_Tick);
-            // 
             // SoundWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -197,6 +232,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn sizeCol;
         private DataGridViewProgressColumn downloadCol;
-        private System.Windows.Forms.DataGridViewImageColumn playCol;
+        private DGMusicProgressColumn playCol;
+        private DataGridViewProgressColumn dataGridViewProgressColumn1;
+        private DGMusicProgressColumn dgMusicProgressColumn1;
     }
 }

@@ -119,6 +119,8 @@
     <Compile Include="DetailGame.Designer.cs">
       <DependentUpon>DetailGame.cs</DependentUpon>
     </Compile>
+    <Compile Include="DGMusicProgressCell.cs" />
+    <Compile Include="DGMusicProgressColumn.cs" />
     <Compile Include="GameWidget.cs">
       <SubType>Form</SubType>
     </Compile>

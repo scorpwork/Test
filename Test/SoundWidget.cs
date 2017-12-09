@@ -18,10 +18,14 @@ namespace Test
     {
         static private WindowsMediaPlayer wmp;
         private int currentPlayingRow { get; set; }
+        private int seconds { get; set; }
+        private int mSeconds { get; set; }
         public SoundWidget()
         {
             InitializeComponent();
             currentPlayingRow = -1;
+            seconds = 0;
+            mSeconds = 0;
             if (ObjectsContainer.GetData() != null)
             {
                 PrepareSoundTable();
@@ -51,6 +55,7 @@ namespace Test
                     if (sound.name + ".wav" == file)
                     {
                         SetCellIcon(iterator, 3, Properties.Resources.play);
+                        soundTable[3, iterator].Value = -1;
                         soundTable.Rows[iterator].Cells[2].Value = -1;
                         //SetCellIcon(iterator, 2, Properties.Resources.downloaded_sound);
                         soundTable.Rows[iterator].Tag = true;
@@ -61,6 +66,7 @@ namespace Test
                 if (!findFile)
                 {
                     SetCellIcon(iterator, 3, Properties.Resources.play_disabled);
+                    soundTable[3, iterator].Value = -2;
                     soundTable.Rows[iterator].Tag = false;
                 }
                 iterator++;
@@ -146,12 +152,20 @@ namespace Test
                             (GetWMP().playState == WMPLib.WMPPlayState.wmppsReady))
                         {
                             GetWMP().controls.play();
+                            wmpTimer.Start();
+                            SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.stop);
+                            soundTable[3, soundTable.CurrentRow.Index].Value = 0;
                             currentPlayingRow = soundTable.CurrentRow.Index;
                             return;
                         }
                         if ((GetWMP().playState == WMPLib.WMPPlayState.wmppsPlaying))
                         {
                             GetWMP().controls.pause();
+                            wmpTimer.Stop();
+                            SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+                            soundTable[3, soundTable.CurrentRow.Index].Value = (GetWMP().controls.currentPosition * 100 /
+                                                               GetWMP().currentPlaylist.Item[0].duration)+100;
+                            soundTable.ClearSelection();
                         }
                     }
                 }
@@ -213,6 +227,7 @@ namespace Test
             client.DownloadFileCompleted -= OnDownloadComplete;
             //progressBarTemp.Value = 0;
             SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+            soundTable[3, soundTable.CurrentRow.Index].Value = -1;
             SetCellIcon(soundTable.CurrentRow.Index, 2, Properties.Resources.downloaded_sound);
             soundTable.Rows[soundTable.CurrentRow.Index].Cells[2].Value = 100;
             soundTable.CurrentRow.Tag = true;
@@ -255,6 +270,7 @@ namespace Test
             {
                 //progressBarTemp.Value = 0;
                 SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+                soundTable[3, soundTable.CurrentRow.Index].Value = -1;
                 SetCellIcon(soundTable.CurrentRow.Index, 2, Properties.Resources.downloaded_sound);
             });
         }
@@ -291,6 +307,7 @@ namespace Test
         {
             ResetStopIcon();
             SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.stop);
+            soundTable[3, soundTable.CurrentRow.Index].Value = 0;
             wmpTimer.Start();
             GetWMP().URL = AppDomain.CurrentDomain.BaseDirectory + "\\download\\" + sound.name + ".wav";
         }
@@ -302,10 +319,12 @@ namespace Test
                 if ((bool)soundTable.Rows[iRow].Tag == true)
                 {
                     SetCellIcon(iRow, 3, Properties.Resources.play);
+                    soundTable[3, iRow].Value = -1;
                 }
                 else
                 {
                     SetCellIcon(iRow, 3, Properties.Resources.play_disabled);
+                    soundTable[3, iRow].Value = -2;
                 }
             }
         }
@@ -316,14 +335,18 @@ namespace Test
         private void WMPPlay()
         {
             WMPPlayState playState = GetWMP().playState;
+            soundTable[3, soundTable.CurrentRow.Index].Value = GetWMP().controls.currentPosition * 100 / 
+                                                               GetWMP().currentPlaylist.Item[0].duration;
             if ((GetWMP().playState == WMPLib.WMPPlayState.wmppsMediaEnded) ||
-                (GetWMP().playState == WMPLib.WMPPlayState.wmppsStopped) /*||
-                (GetWMP().playState == WMPLib.WMPPlayState.wmpps)*/)
+                (GetWMP().playState == WMPLib.WMPPlayState.wmppsStopped))
             {
                 wmpTimer.Stop();
+                seconds = 0;
+                mSeconds = 0;
                 if ((bool)soundTable.CurrentRow.Tag != false)
                 {
                     SetCellIcon(soundTable.CurrentRow.Index, 3, Properties.Resources.play);
+                    soundTable[3, soundTable.CurrentRow.Index].Value = -1;
                 }
                 soundTable.ClearSelection();
             }
@@ -336,7 +359,13 @@ namespace Test
         /// <param name="e"></param>
         private void wmpTimer_Tick(object sender, EventArgs e)
         {
+            mSeconds += 100;
+            if (mSeconds%1000 == 0)
+            {
+                seconds++;
+            }
             WMPPlay();
+            
         }
     }
 }
