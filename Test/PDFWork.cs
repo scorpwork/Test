@@ -42,7 +42,13 @@ namespace Test
                 AddProgressors(game, content,doc,writer);
                 doc.Close();
             }
-            Msg.Show(MainForm.Get(), "Документ сформирован", game.name+".pdf");
+            //Msg.Show(MainForm.Get(), "Документ сформирован", game.name+".pdf");
+            try
+            {
+                System.Diagnostics.Process.Start("Reports\\" + game.name + ".pdf"); 
+            }
+            catch { }
+            
         }
 
         /// <summary>
