@@ -17,10 +17,11 @@ namespace Test
     public partial class SoundWidget : Form
     {
         static private WindowsMediaPlayer wmp;
-
+        private int currentPlayingRow { get; set; }
         public SoundWidget()
         {
             InitializeComponent();
+            currentPlayingRow = -1;
             if (ObjectsContainer.GetData() != null)
             {
                 PrepareSoundTable();
@@ -123,11 +124,35 @@ namespace Test
             {
                 try
                 {
-                    //PlaySound(GetCurrentSound());
                     bool isDownload = (bool)soundTable.CurrentRow.Tag;
                     if (isDownload)
                     {
-                        PlaySoundWMP(GetCurrentSound());
+                        if (currentPlayingRow != soundTable.CurrentRow.Index)
+                        {
+                            currentPlayingRow = soundTable.CurrentRow.Index;
+                            PlaySoundWMP(GetCurrentSound());
+                            return;
+                        }
+
+                        WMPPlayState playState = GetWMP().playState;
+                        if (GetWMP().playState == WMPLib.WMPPlayState.wmppsStopped ||
+                            GetWMP().playState == WMPLib.WMPPlayState.wmppsMediaEnded ||
+                            GetWMP().playState == WMPLib.WMPPlayState.wmppsUndefined)
+                        {
+                            currentPlayingRow = soundTable.CurrentRow.Index;
+                            PlaySoundWMP(GetCurrentSound());
+                        }
+                        if ((GetWMP().playState == WMPLib.WMPPlayState.wmppsPaused) ||
+                            (GetWMP().playState == WMPLib.WMPPlayState.wmppsReady))
+                        {
+                            GetWMP().controls.play();
+                            currentPlayingRow = soundTable.CurrentRow.Index;
+                            return;
+                        }
+                        if ((GetWMP().playState == WMPLib.WMPPlayState.wmppsPlaying))
+                        {
+                            GetWMP().controls.pause();
+                        }
                     }
                 }
                 catch

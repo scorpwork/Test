@@ -304,5 +304,47 @@ namespace Test
             Cursor.Current = Cursors.Default;
         }
 
+        private void detailTable_Click(object sender, EventArgs e)
+        {
+            /*if (detailTable.CurrentRow.Cells[0].Tag == "Team")
+            {
+                List<DataGridViewRow> players = new List<DataGridViewRow>();
+                int iterator = detailTable.CurrentRow.Index + 1;
+                while (detailTable.Rows[iterator].Tag != null)
+                {
+                    players.Add(detailTable.Rows[iterator]);
+                    iterator++;
+                }
+                DataGridViewRow buf;
+                for (int iSort = 0; iSort < players.Count - 1; iSort++)
+                {
+                    for (int jSort = 0; jSort < players.Count - 1; jSort++)
+                    {
+                        if (players[jSort].Cells[0].Value.ToString().CompareTo(
+                                players[jSort+1].Cells[0].Value.ToString()) == 1)
+                        {
+                            buf = players[jSort];
+                            players[jSort] = players[jSort+1];
+                            players[jSort + 1] = buf;
+                        }
+                    }
+                }
+                iterator = detailTable.CurrentRow.Index + 1;
+                while (detailTable.Rows[iterator].Tag != null)
+                {
+                    detailTable.Rows[iterator].Cells[0].Value = players[iterator].Cells[0].Value;
+                    detailTable.Rows[iterator].Cells[1].Value = players[iterator].Cells[1].Value;
+                    detailTable.Rows[iterator].Cells[2].Value = players[iterator].Cells[2].Value;
+                    detailTable.Rows[iterator].Cells[3].Value = players[iterator].Cells[3].Value;
+                    iterator++;
+                }
+                //players.Sort(players.C);
+                //detailTable.Sort(detailTable.Columns[0], ListSortDirection.Ascending);
+            }*/
+        }
+
+        private void detailTable_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+        }
     }
 }
