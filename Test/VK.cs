@@ -60,7 +60,15 @@ namespace Test
                 else
                 {
                     ScreenShot();
-                    SendMessage(token);
+                    try
+                    {
+                        SendMessage(token);
+                    }
+                    catch
+                    {
+                        Msg.Show(this, "Ошибка авторизации", "Вступите в группу");
+                    }
+                    
                 }
             }
             Cursor.Current = Cursors.Default;
