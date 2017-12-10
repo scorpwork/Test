@@ -121,6 +121,8 @@
     </Compile>
     <Compile Include="DGMusicProgressCell.cs" />
     <Compile Include="DGMusicProgressColumn.cs" />
+    <Compile Include="DGVTextWithIconCell.cs" />
+    <Compile Include="DGVTextWithIconColumn.cs" />
     <Compile Include="GameWidget.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -12,10 +12,12 @@ namespace Test
     public partial class DetailGame : Form
     {
         private Game game { get; set; }
+        private bool sortASC { get; set; }
 
         public DetailGame(Game game)
         {
             this.game = game;
+            sortASC = true;
             InitializeComponent();
             detailLabel.Text = this.game.name;
             PrepareDetailTable();
@@ -48,6 +50,7 @@ namespace Test
                 detailTable.Rows[teamIterator].DefaultCellStyle = teamStyle;
                 detailTable.Rows[teamIterator].Cells[0].Value = team.name;
                 detailTable.Rows[teamIterator].Cells[0].Tag = "Team";
+                detailTable.Rows[teamIterator].Tag = team;
                 detailTable.Rows[teamIterator].ReadOnly = true;
                 int playerIterator = 0;
                 foreach (Player player in team.players)
@@ -195,12 +198,16 @@ namespace Test
         /// <param name="e"></param>
         private void detailTable_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Player player = (Player)detailTable.CurrentRow.Tag;
-            int col = detailTable.CurrentCell.ColumnIndex;
-            if (col!=0)
+            try
             {
-                KeyValidation(e);
+                Player player = (Player)detailTable.CurrentRow.Tag;
+                int col = detailTable.CurrentCell.ColumnIndex;
+                if (col != 0)
+                {
+                    KeyValidation(e);
+                }
             }
+            catch { }
         }
 
         /// <summary>
@@ -238,15 +245,21 @@ namespace Test
         {
             if (detailTable.CurrentRow.Tag != null)
             {
-                Validate();
-                detailTable.Update();
-                detailTable.EndEdit();
-                Player player = (Player)detailTable.CurrentRow.Tag;
-                int col = detailTable.CurrentCell.ColumnIndex;
-                TransparentForm.Get().Show();
-                PlayerEditor editor = new PlayerEditor(player);
-                editor.FormClosed += editor_Closed;
-                editor.ShowDialog();
+                try
+                {
+                    Validate();
+                    detailTable.Update();
+                    detailTable.EndEdit();
+                    Player player = (Player)detailTable.CurrentRow.Tag;
+                    int col = detailTable.CurrentCell.ColumnIndex;
+                    TransparentForm.Get().Show();
+                    PlayerEditor editor = new PlayerEditor(player);
+                    editor.FormClosed += editor_Closed;
+                    editor.ShowDialog();
+                }
+                catch
+                {}
+                
             }
         }
 
@@ -304,47 +317,166 @@ namespace Test
             Cursor.Current = Cursors.Default;
         }
 
+        /// <summary>
+        /// Ручная сортировка строк
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void detailTable_Click(object sender, EventArgs e)
         {
-            /*if (detailTable.CurrentRow.Cells[0].Tag == "Team")
+            if (detailTable.CurrentRow.Cells[0].Tag == "Team")
             {
-                List<DataGridViewRow> players = new List<DataGridViewRow>();
-                int iterator = detailTable.CurrentRow.Index + 1;
-                while (detailTable.Rows[iterator].Tag != null)
+                bool visibility;
+                int rowIterator = detailTable.CurrentRow.Index + 1;
+                if (detailTable.Rows[rowIterator].Visible == true)
                 {
-                    players.Add(detailTable.Rows[iterator]);
-                    iterator++;
+                    visibility = false;
                 }
-                DataGridViewRow buf;
-                for (int iSort = 0; iSort < players.Count - 1; iSort++)
+                else
                 {
-                    for (int jSort = 0; jSort < players.Count - 1; jSort++)
+                    visibility = true;
+                }
+                HidibleTeamRows(visibility);
+            }
+                //Вариант сортировки по нажатии на команду
+                /*if (detailTable.CurrentRow.Cells[0].Tag == "Team")
+                {
+                    Team team = (Team)detailTable.CurrentRow.Tag;
+                    Player buf;
+                    for (int iSort = 0; iSort < team.players.Count - 1; iSort++)
                     {
-                        if (players[jSort].Cells[0].Value.ToString().CompareTo(
-                                players[jSort+1].Cells[0].Value.ToString()) == 1)
+                        for (int jSort = 0; jSort < team.players.Count - 1; jSort++)
                         {
-                            buf = players[jSort];
-                            players[jSort] = players[jSort+1];
-                            players[jSort + 1] = buf;
+                            if (team.players[jSort].name.CompareTo(
+                                    team.players[jSort + 1].name) == 1)
+                            {
+                                buf = team.players[jSort];
+                                team.players[jSort] = team.players[jSort + 1];
+                                team.players[jSort + 1] = buf;
+                            }
                         }
                     }
-                }
-                iterator = detailTable.CurrentRow.Index + 1;
-                while (detailTable.Rows[iterator].Tag != null)
+
+                    int rowIterator = detailTable.CurrentRow.Index + 1;
+                    int playerIterator = 0;
+                    while (detailTable.Rows[rowIterator].Tag != null && detailTable.Rows[rowIterator].Cells[0].Tag != "Team")
+                    {
+                        detailTable.Rows.RemoveAt(rowIterator);
+                        detailTable.Rows.Insert(rowIterator);
+                        detailTable.Rows[rowIterator].Tag = team.players[playerIterator];
+                        System.Windows.Forms.DataGridViewCellStyle playerStyle = new System.Windows.Forms.DataGridViewCellStyle();
+                        playerStyle.Font = new System.Drawing.Font("Arial", 10F);
+                        detailTable.Rows[rowIterator].DefaultCellStyle = playerStyle;
+                        detailTable[0, rowIterator].Value = team.players[playerIterator].name;
+                        detailTable[1, rowIterator].Value = team.players[playerIterator].rating.ToString();
+                        detailTable[2, rowIterator].Value = (team.players[playerIterator].accuracy * 100).ToString() + "%"; ;
+                        detailTable[3, rowIterator].Value = team.players[playerIterator].shots.ToString();
+                        rowIterator++;
+                        playerIterator++;
+                        if (rowIterator >= detailTable.RowCount)
+                        {
+                            return;
+                        }
+                    }
+                }*/
+            }
+
+        private void HidibleTeamRows(bool visible)
+        {
+            int rowIterator = detailTable.CurrentRow.Index + 1;
+            int playerIterator = 0;
+            while (detailTable.Rows[rowIterator].Tag != null && detailTable.Rows[rowIterator].Cells[0].Tag != "Team")
+            {
+                detailTable.Rows[rowIterator].Visible = visible;
+                rowIterator++;
+                playerIterator++; if (rowIterator >= detailTable.RowCount)
                 {
-                    detailTable.Rows[iterator].Cells[0].Value = players[iterator].Cells[0].Value;
-                    detailTable.Rows[iterator].Cells[1].Value = players[iterator].Cells[1].Value;
-                    detailTable.Rows[iterator].Cells[2].Value = players[iterator].Cells[2].Value;
-                    detailTable.Rows[iterator].Cells[3].Value = players[iterator].Cells[3].Value;
-                    iterator++;
+                    return;
                 }
-                //players.Sort(players.C);
-                //detailTable.Sort(detailTable.Columns[0], ListSortDirection.Ascending);
-            }*/
+            }
         }
 
         private void detailTable_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (detailTable.Columns[e.ColumnIndex].HeaderText == "Рейтинг")
+            {
+                foreach (Team team in this.game.teams)
+                {
+                    SortTeam(team);
+                    int rowIterator = GetTeamRow(team) + 1;
+                    int playerIterator = 0;
+                    while (detailTable.Rows[rowIterator].Tag != null && detailTable.Rows[rowIterator].Cells[0].Tag != "Team")
+                    {
+                        detailTable.Rows.RemoveAt(rowIterator);
+                        detailTable.Rows.Insert(rowIterator);
+                        try
+                        {
+                            detailTable.Rows[rowIterator].Tag = team.players[playerIterator];
+                        }
+                        catch
+                        {
+                            sortASC = !sortASC;
+                            return;
+                        }
+                        System.Windows.Forms.DataGridViewCellStyle playerStyle = new System.Windows.Forms.DataGridViewCellStyle();
+                        playerStyle.Font = new System.Drawing.Font("Arial", 10F);
+                        detailTable.Rows[rowIterator].DefaultCellStyle = playerStyle;
+                        detailTable[0, rowIterator].Value = team.players[playerIterator].name;
+                        detailTable[1, rowIterator].Value = team.players[playerIterator].rating.ToString();
+                        detailTable[2, rowIterator].Value = (team.players[playerIterator].accuracy * 100).ToString() + "%"; ;
+                        detailTable[3, rowIterator].Value = team.players[playerIterator].shots.ToString();
+                        rowIterator++;
+                        playerIterator++;
+                        if (rowIterator >= detailTable.RowCount)
+                        {
+                            sortASC = !sortASC;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SortTeam(Team team)
+        {
+            Player buf;
+            for (int iSort = 0; iSort < team.players.Count - 1; iSort++)
+            {
+                for (int jSort = 0; jSort < team.players.Count - 1; jSort++)
+                {
+                    if (sortASC)
+                    {
+                        if (team.players[jSort].rating > team.players[jSort + 1].rating)
+                        {
+                            buf = team.players[jSort];
+                            team.players[jSort] = team.players[jSort + 1];
+                            team.players[jSort + 1] = buf;
+                        }
+                    }
+                    else
+                    {
+                        if (team.players[jSort].rating < team.players[jSort + 1].rating)
+                        {
+                            buf = team.players[jSort];
+                            team.players[jSort] = team.players[jSort + 1];
+                            team.players[jSort + 1] = buf;
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        private int GetTeamRow(Team team)
+        {
+            for (int iRow = 0; iRow < detailTable.RowCount; iRow++)
+            {
+                if (detailTable.Rows[iRow].Tag == team)
+                {
+                    return iRow;
+                }
+            }
+            return 0;
         }
     }
 }
