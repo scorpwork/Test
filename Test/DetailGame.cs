@@ -437,6 +437,10 @@ namespace Test
             }
         }
 
+        /// <summary>
+        /// Сортировка команд
+        /// </summary>
+        /// <param name="team"></param>
         private void SortTeam(Team team)
         {
             Player buf;
@@ -477,6 +481,39 @@ namespace Test
                 }
             }
             return 0;
+        }
+
+        private void detailTable_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex == 1 && e.RowIndex == -1)
+            {                
+                float posX = e.CellBounds.X;
+                float posY = e.CellBounds.Y;
+                Brush foreColorBrush = new SolidBrush(Color.Black);
+                System.Windows.Forms.DataGridViewCellStyle style = new System.Windows.Forms.DataGridViewCellStyle();
+                style.Font = new System.Drawing.Font("Arial", 10F, FontStyle.Bold);
+                e.Graphics.DrawString(e.Value.ToString(), style.Font, foreColorBrush, posX, posY);
+                float textWidth = TextRenderer.MeasureText(e.Value.ToString(), style.Font).Width;
+                e.Graphics.DrawImage(Properties.Resources.sort, posX+textWidth, posY);
+                e.Handled = true;
+            }
+            /*if (e.RowIndex>=0)
+            {
+                if (e.ColumnIndex == 0 && detailTable[e.ColumnIndex, e.RowIndex].Tag == "Team")
+                {
+                    System.Windows.Forms.DataGridViewCellStyle style = new System.Windows.Forms.DataGridViewCellStyle();
+                    style.Font = new System.Drawing.Font("Arial", 14F, FontStyle.Bold);
+                    float textHeight = TextRenderer.MeasureText(e.Value.ToString(), e.CellStyle.Font).Height;
+                    float posX = e.CellBounds.X;
+                    float posY = e.CellBounds.Y + e.CellBounds.Height - 30;// - textHeight;
+                    Brush foreColorBrush = new SolidBrush(Color.Black);
+                    
+                    e.Graphics.DrawString(e.Value.ToString(), style.Font, foreColorBrush, posX, posY);
+                    float textWidth = TextRenderer.MeasureText(e.Value.ToString(), style.Font).Width;
+                    e.Graphics.DrawImage(Properties.Resources.hide_show, posX + textWidth, posY);
+                    e.Handled = true;
+                }
+            }*/
         }
     }
 }

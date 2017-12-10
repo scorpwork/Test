@@ -114,6 +114,7 @@
             this.detailTable.Size = new System.Drawing.Size(657, 385);
             this.detailTable.TabIndex = 2;
             this.detailTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.detailTable_CellEndEdit);
+            this.detailTable.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.detailTable_CellPainting);
             this.detailTable.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.detailTable_ColumnHeaderMouseClick);
             this.detailTable.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.detailTable_EditingControlShowing);
             this.detailTable.Click += new System.EventHandler(this.detailTable_Click);
@@ -130,6 +131,7 @@
             this.playerCell.HeaderText = "Игрок";
             this.playerCell.MinimumWidth = 160;
             this.playerCell.Name = "playerCell";
+            this.playerCell.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.playerCell.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.playerCell.Width = 160;
             // 
@@ -242,11 +244,11 @@
         private System.Windows.Forms.Label detailLabel;
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.DataGridView detailTable;
+        private System.Windows.Forms.Button saveVK;
+        private System.Windows.Forms.Button savePDF;
         private System.Windows.Forms.DataGridViewTextBoxColumn playerCell;
         private System.Windows.Forms.DataGridViewTextBoxColumn ratingCell;
         private System.Windows.Forms.DataGridViewTextBoxColumn accuracyCell;
         private System.Windows.Forms.DataGridViewTextBoxColumn shotsCell;
-        private System.Windows.Forms.Button saveVK;
-        private System.Windows.Forms.Button savePDF;
     }
 }
